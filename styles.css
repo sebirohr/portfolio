@@ -1,0 +1,218 @@
+@font-face {
+    font-family: 'Protest strike';
+    src: url('ProtestStrike-Regular.ttf') format('truetype');
+    font-weight: 100;
+  }
+
+ @font-face {
+    font-family: 'Merriweather regular';
+    src: url('Merriweather-Regular.ttf') format('truetype');
+    font-weight: 100;
+  }
+
+  @font-face {
+    font-family: 'SourceSansPro Semibold';
+    src: url('SourceSansPro-Semibold.otf') format('truetype');
+    font-weight: 100;
+  }
+
+  @font-face {
+    font-family: 'SourceSansPro light';
+    src: url('SourceSansPro-light.otf') format('truetype');
+    font-weight: 100;
+  }
+
+
+  body {
+    background-image: url('ImagenFondo4.avif');
+    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el fondo */
+    background-position: center; /* Centra la imagen en el fondo */
+    background-attachment: fixed;
+}
+
+header {
+    font-family: 'SourceSansPro Semibold';
+    font-weight: 250;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    width: 80%; 
+    margin: 0 auto; 
+    border-radius: 20px;
+    border: 2px solid #ffffff;
+}
+
+
+h1 {
+    margin: 10;
+    font-weight: 50;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    border: 2px solid #ffffff;
+    display: inline-block;
+    padding: 10px;
+}
+
+h3 {
+    margin: 0;
+    font-weight: 50;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+}
+
+
+nav ul {
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    list-style-type: none;
+    padding: 0;
+    font-weight: 10;
+    margin-bottom: 90px auto;
+}
+
+nav ul li {
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    display: inline;
+    margin-right: 20px;
+    font-weight: 10;
+}
+
+nav ul li a {
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 10;
+}
+
+nav ul li a:hover {
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    text-decoration: underline;
+    font-weight: 10;
+}
+
+body {
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    margin-top: 30px;
+
+}
+
+main {
+    font-size: 20px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    margin: 10px auto 90px; /* margen arriba, margen horizontal, margen abajo */
+    text-align: center;
+    padding: 10px;
+    color: #e28000;
+    width: 75%;
+}
+.about {
+    font-size: 20px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    text-align: left;
+    padding: 30px;
+    background-color: #ffffff;
+    color: #e28000;
+    border: 2px solid #bbbbbb;
+    
+}
+
+.about p {
+    font-size: 15px;
+    font-family: 'SourceSansPro light', 'Protest strike', Helvetica, serif;
+    text-align: justify;
+    color: #414141;
+}
+
+.works {
+    font-size: 20px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    margin: 20px auto 90px; /* margen arriba, margen horizontal, margen abajo */
+    padding: 30px;
+    text-align: left;
+    color: #e28000;
+    border: 2px solid #bbbbbb;
+    background-color: #fff;
+
+}
+
+.works p {
+    font-size: 15px;
+    font-family: 'SourceSansPro light', 'Protest strike', Helvetica, serif;
+    text-align: justify;
+    color: #414141;
+}
+
+.contact {
+    font-size: 15px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    text-align: left;
+    color: #e28000;
+    border: 2px solid #bbbbbb;
+    background-color: #ffffff;
+}
+
+.contact h2 {
+    font-size: 15px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    margin-left: 20px;
+    padding: 0;
+}
+
+.contact img {
+    max-width: 80%;
+    height: 50px; 
+    padding: 10px;
+
+}
+
+
+
+.contenedorTrabajos {
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: space-between/* Establece el contenedor padre como un contenedor flexible */
+  }
+
+
+.trabajo {
+    width: 420px;
+    height: 400px; 
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #999999;
+    text-align: center; /* Para centrar el contenido */
+    box-sizing: border-box; /* Incluir el padding y el borde en el cálculo del ancho */
+    background-color: #ffffff94;
+    color: #414141;
+
+}
+
+
+.trabajo h2 {
+    font-size: 25px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    color: rgb(70, 70, 70);/* Aplicar la fuente Source Sans Pro al título */
+    margin-top: 0; /* Eliminar el margen superior del título */
+
+}
+
+.trabajo h4 {
+    font-size: 20px;
+    font-family: 'SourceSansPro Semibold', 'Protest strike', Helvetica, serif;
+    color: rgb(109, 109, 109);/* Aplicar la fuente Source Sans Pro al título */
+    margin-top: 0; /* Eliminar el margen superior del título */
+
+}
+
+.trabajo p {
+    font-size: 14px;
+    font-family: 'Merriweather regular',Georgia, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;}
+
+.trabajo img {
+    max-width: 80%; /* Establecer el tamaño máximo de las imágenes al 100% del contenedor */
+    height: 150px; /* Permitir que las imágenes se escalen proporcionalmente */
+
+}
