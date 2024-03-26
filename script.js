@@ -56,7 +56,7 @@ emailIcon.appendChild(emailImg);
 ContainerContacto.appendChild(emailIcon); 
 
 const cvIcon = document.createElement("a");
-cvIcon.href = "/CV Sebastian Rohr. Diciembre 2023.pdf";
+cvIcon.href = "https://drive.google.com/file/d/1o-jlvmwLoqkfn7Y0q98tlEJehVzYhsRF/view?usp=sharing";
 cvIcon.download = "CV Sebastian Rohr (esp).pdf"; 
 const cvImg = document.createElement("img");
 cvImg.src = "cv español.png"; 
@@ -64,7 +64,7 @@ cvIcon.appendChild(cvImg);
 ContainerContacto.appendChild(cvIcon); 
 
 const cvIconeng = document.createElement("a");
-cvIconeng.href = "/CV Sebastian Rohr (eng).pdf";
+cvIconeng.href = "https://drive.google.com/file/d/1fs1NdQp6r_CBHDzd5cBERd0O-p-13dWC/view?usp=sharing";
 cvIconeng.download = "CV Sebastian Rohr (eng).pdf"; 
 const cvImgeng = document.createElement("img");
 cvImgeng.src = "cv ingles.png"; 
