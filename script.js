@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Datos de ejemplo (pueden ser reemplazados por tus propios datos)
     const trabajos = [
+        { titulo: "Observatorio Mercado Inmobiliario", subtitulo: "Análisis de publicaciones de alquiler de CABA", link: "https://observatoriovivienda.shinyapps.io/Tablero-OMI/", descripcion: "Programación de WebScrapping y el posterior procesamiento de la información para analizar el mercado inmobiliario de CABA" },
         { titulo: "Deficit Habitacional", subtitulo: "Construcción metodológica para medición a partir de la EPH", link: "https://rpubs.com/sebiro/DeficitHabitacional", descripcion: "Procesamiento preeliminar propio para la construcción de un indicador del déficit habitacional a partir de la información provista por la EPH (Encuesta Permanente de Hogares)" },
         { titulo: "Integración Urbana", subtitulo: "Análisis de la cartera de la gestión de la SISU 2020-2023", link: "https://rpubs.com/sebiro/CarteraSISU", descripcion: "Procesamiento de la información disponible en datos abiertos sobre los proyectos de integración urbana realizados por la SISU (Secretaría de Integración Socio Urbana) en la gestión 2020-2023" },
         { titulo: "Economia Popular", subtitulo: "Tablero para el seguimiento del mercado laboral", link: "https://equilab-data.shinyapps.io/tablero_mercado_laboral/", descripcion: "Trabajo realizado en conjunto con OCEPP y el Taller de Datos Populares (UBA) para la identificación y el seguimiento de los trabajadores que se desarrollan en la Economia Popular" },
