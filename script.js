@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const trabajosContainer = document.getElementById("contenedorTrabajos");
 
-    // Datos de ejemplo (pueden ser reemplazados por tus propios datos)
+    // Poner trabajos
     const trabajos = [
         { titulo: "Observatorio Mercado Inmobiliario", subtitulo: "Extracción y análisis de publicaciones de alquiler de CABA", link: "https://observatoriovivienda.shinyapps.io/Tablero-OMI/", descripcion: "Programación de WebScrapping y el posterior procesamiento de la información para analizar el mercado inmobiliario de CABA" },
         { titulo: "Deficit Habitacional", subtitulo: "Construcción metodológica para medición a partir de la EPH", link: "https://rpubs.com/sebiro/DeficitHabitacional", descripcion: "Procesamiento preeliminar propio para la construcción de un indicador del déficit habitacional a partir de la información provista por la EPH (Encuesta Permanente de Hogares)" },
