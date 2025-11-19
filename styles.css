@@ -138,7 +138,7 @@ main {
 }
 
 .portada-texto h1 {
-    font-size: 90px;
+    font-size: 70px;
     margin-bottom: 10px;
     font-family: 'Inter Regular','SourceSansPro light', 'Protest strike', Helvetica, serif;
     text-align: left; /* ✅ esto sí alinea el texto */
