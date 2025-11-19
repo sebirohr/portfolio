@@ -5,38 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Sebastian Rohr</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+
 </head>
 <body>
-    <header>
+    <header class="navbar">
+        <div class="border-short"></div>
+    <div class="titulo">
         <h1>SEBASTIAN ROHR</h1>
-        <h3>Economia urbana | Ciencia de datos</h3>
-        
-        <nav>
-            <ul>
-                <li><a href="#sobre-mi">Sobre Mí</a></li>
-                <li><a href="#trabajos">Trabajos</a></li>
-                <li><a href="#contactoCV">Contacto y CV</a></li>
-            </ul>
-        </nav>
+    <!--    <h3>CONSULTORIA Y DIVULGACIÓN</h3> -->
+        <h5>CONSULTORIA Y DIVULGACIÓN</h5>
+
+    </div>
+
+
+    <nav class="menu">
+        <ul>
+            <li><a href="#trabajos">PUBLICACIONES</a></li>
+            <li><a href="#divulgacion">DIVULGACIÓN</a></li>
+            <li><a href="#sobre-mi">SOBRE MI</a></li>
+        </ul>
+    </nav>
     </header>
+
+        <!-- 🔽 NUEVA SECCIÓN DE PORTADA -->
+    <section class="portada">
+        
+         <div class="portada-texto">
+        <h1>  DATOS +<br>
+              ECONOMIA +<br>
+              CIUDADES
+        </h1>
+        </div> 
+    </section>
+
+    <hr class="portada-divider">
+
     <main>
-        <div class="about" id = "sobre-mi"> 
-            <h2>Sobre Mí</h2>
-          <p> Mi nombre es Sebastian Rohr. Soy licenciado en economía por la UBA y diplomado en Políticas Urbanas y Ciudades por la Universidad Di Tella.
-              A lo largo de mi trayectoria laboral trabajé 7 años en distintas instituciones del sector público, siempre en el marco de políticas que buscaban garantizar una vivienda y un entorno urbano de calidad.
-              Desde allí comencé a especializarme en el análisis de datos, sobre todo aquellos cuantitativos y geográficos. Decidí tomar cursos para aprender distintos lenguajes de procesamiento, programación y visualización de datos.
-              Me divierte agarrar cualquier dataset y procesarlo para ver qué dice. Lo realizo como hobby incursionando en temas que son de mi interés como la comida y el deporte. En el último tiempo comencé a trabajar como consultor 
-              en proyectos donde la explotación de datos son un activo tanto para el elaboración de políticas de desarrollo territorial, como insumos para modelos de negocios. 
-              Me encuentro trabajando en proyectos con instituciones como el Centro de Estudios Económicos Urbanos (CEEU-UNSAM), el Centro de Implementación de Políticas Públicas para la Equidad y el Crecimiento (CIPPEC), Andata Consultora, el centro de investigación FUNDAR, investigaciones del CONICET, entre otras. </p> 
-        </div>
         <div class="works" id = "trabajos"> 
-            <h2>Trabajos</h2>
-            <p> A lo largo de mi carrera profesional realicé diversos trabajos junto con equipos interdisciplinarios compuesto por sociólogos, arquitectos, programadores, entre otros. A continuación presento alguno de ellos </p>             <div class="contenedorTrabajos" id="contenedorTrabajos"></div>
+            <h2>PUBLICACIONES</h2>
+            <p>
+            Documentos de trabajo, investigaciones y tableros realizados a lo largo de mi carrera profesional. 
+            Muchos de ellos fueron realizados con equipos de trabajo que incluyeron el cruce con diversas disciplinas científicas y equipos territoriales.
+            </p>
+
+            <p>
+            El común denominador es la búsqueda por comprender dinámicas urbanas, a través de la utilización y procesamiento de diversas fuentes de datos tradicionales —censos, encuestas, trabajo territorial— e innovadoras —webscrapping, imágenes satelitales, consumo eléctrico, etc.—.
+            </p>
+            <div class="contenedorTrabajos" id="contenedorTrabajos"></div>
+
+              <!-- 🔹 BOTÓN -->
+            <div class="ver-todo">
+                <a href="publicaciones.html" class="btn-ver-todo">Ver todas las publicaciones →</a>
+            </div>
         </div>
-        <div class="contact" id = "contactoCV"> 
-            <h2>Contacto y CV</h2>
+
+        <div class="divulgacion" id="divulgacion"> 
+        <h2>DIVULGACIÓN</h2>
+            <p>
+            En la conjunción de un enfoque metodológico cuantitativo y una comunicación apta para todo público, elaboré y participé en distintas notas de divulgación sobre las problemáticas de las ciudades. 
+            </p>
+
+            <p>
+            Muchas de estas investigaciones se consolidaron en .CSV (Cómo sobrevivimos), un newsletter realizado en el marco del Centro de Estudios Económicos Urbanos (UNSAM).
+            El mismo analiza los principales desafíos urbanos del presente a través de los datos y propone algunas líneas de acción que se pueden explorar a partir de conversaciones con especialistas y experiencias en otras ciudades.
+            </p>
+
+        <div class="contenedorPrincipalDivulgacion">
+            <div class="bloqueDivulgacion bloqueNewsletter">
+            <h4>.CSV - Newsletter</h4>
+            <div class="contenedorNewsletter" id="newsletterContainer"></div>
+            </div>
+
+            <div class="bloqueDivulgacion bloqueNotas">
+            <h4>Otras notas</h4>
+            <div class="contenedorOtrasNotas" id="notasContainer"></div>
+            </div>
         </div>
+            <!-- 🔹 BOTÓN -->
+            <div class="ver-todo">
+                <a href="divulgacion.html" class="btn-ver-todo">Ver toda la divulgación →</a>
+            </div>
+        </div>
+
     </main>
-    <script src="script.js"></script>
+    <div class="about" id = "sobre-mi"> 
+        <h2>Sobre mi</h2>
+        <p>
+        Mi nombre es Sebastian Rohr. Soy licenciado en economía por la UBA y diplomado en Políticas Urbanas y Ciudades por la Universidad Di Tella. Comencé mi trayectoria laboral en distintas instituciones del sector público, en el marco de políticas que ampliaban el acceso a la vivienda y a un entorno urbano de calidad. Desde allí comencé a especializarme en el análisis de datos, sobre todo aquellos cuantitativos y geográficos. Decidí tomar cursos para aprender distintos lenguajes de procesamiento, programación y visualización de datos, y en paralelo llevé adelante un proceso formativo que combinaba prácticas autodidactas con la aplicación en entornos de trabajo.
+        </p>
+
+        <p>
+        A partir de estas experiencias comencé a trabajar como consultor en proyectos donde la explotación de datos son un activo. Algunos de estos trabajos tuvieron como objetivo la elaboración de políticas de desarrollo territorial, pero también comencé a incursionar en la utilización de los datos como insumos para distintos modelos de negocio en industrias como el retail y la construcción.
+        También soy parte de algunas propuestas formativas en distitnas universidades.     
+        </p> 
+
+            <div class="docencia" id = "docencia"> 
+                <h4>Docencia</h4>
+                <div class="docencia-lista" id="docencia-lista"></div>
+            </div>    
+            <div class="workwith" id = "workwith"> 
+                <h4>Instituciones con las que trabajé</h4>
+                <div class="trabajos-lista" id="trabajos-lista"></div>
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- 🔹 Nuevo contenedor combinado -->
+            <div class="bottom-section">
+                <div class="contact" id="contact"> 
+                <h4>Contacto</h4>
+                <div id="contactoCV"></div> <!-- aquí se inyectan los íconos -->
+                </div>
+
+            <div class="CV">
+                <h4>Curriculum</h4>
+                <div id="CV"></div>
+            </div>
+            </div>
+            </div>
+    </div>
+
+   <footer class="footer">
+        <p>© 2025 Sebastian Rohr · Todos los derechos reservados</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
 </body>
 </html>

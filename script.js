@@ -1,80 +1,400 @@
-
 document.addEventListener("DOMContentLoaded", function() {
-    const trabajosContainer = document.getElementById("contenedorTrabajos");
 
-    // Poner trabajos
-    const trabajos = [
-        { titulo: "Observatorio Mercado Inmobiliario", subtitulo: "Extracción y análisis de publicaciones de alquiler de CABA", link: "https://sebiro.shinyapps.io/Tablero-OMI/", descripcion: "Programación de WebScrapping y el posterior procesamiento de la información para analizar el mercado inmobiliario de CABA" },
-        { titulo: "Deficit Habitacional", subtitulo: "Construcción metodológica para medición a partir de la EPH", link: "https://rpubs.com/sebiro/DeficitHabitacional", descripcion: "Procesamiento preeliminar propio para la construcción de un indicador del déficit habitacional a partir de la información provista por la EPH (Encuesta Permanente de Hogares)" },
-        { titulo: "Integración Urbana", subtitulo: "Análisis de la cartera de la gestión de la SISU 2020-2023", link: "https://rpubs.com/sebiro/CarteraSISU", descripcion: "Procesamiento de la información disponible en datos abiertos sobre los proyectos de integración urbana realizados por la SISU (Secretaría de Integración Socio Urbana) en la gestión 2020-2023" },
-        { titulo: "Viviendas Vacías", subtitulo: "Definición y cálculo de la vacancia en vivendas de CABA", link: "https://cdn.buenosaires.gob.ar/datosabiertos/datasets/instituto-de-vivienda/informes-coyuntura-habitacional/informe_mesa_de_estudio_de_viviendas_vacias.pdf", descripcion: "Estudio realizado en el marco del trabajo del Observatorio de Vivienda de la Ciudad y en conjunto con otras organizaciones de la sociedad civil para dimensionar la cantidad de viviendas vacías en la ciudad" },
-        { titulo: "Monitor SISU", subtitulo: "Monitor de integración Socio Urbana", link: "https://lookerstudio.google.com/u/0/reporting/3b5376df-428e-4cb6-bdf7-a20026dfa23a/page/muTcD", descripcion: "Monitor abierto para difusión y seguimiento de las obras de integración realizadas por la Secretaría de integración Socio Urbana. Trabajo realizado en conjunto con el equipo de la Secretaria" },
-        { titulo: "Monitor vivienda GCBA", subtitulo: "Matriz de indicadores de vivienda", link: "https://app.powerbi.com/view?r=eyJrIjoiZGJkNzY5MmYtMjI3ZC00ZjhiLWJiYTgtODk5ZWUzOTI2ZDVkIiwidCI6IjIzNzc0NzJlLTgwMDQtNDY0OC04NDU2LWJkOTY4N2FmYTE1MCIsImMiOjR9", descripcion: "Monitor abierto para el seguimiento de variables escogidas de la situación habitacional en la Ciudad de Buenos Aires. Trabajo realizado en conjunto con el equipo del Observatorio IVC y la DG de Calidad Institucional y Gobierno Abierto" },
+  // === TRABAJOS ===
+  // === TRABAJOS ===
+  const trabajosContainer = document.getElementById("contenedorTrabajos");
 
-    ];
-    
-    // Mostrar los trabajos en la página
-    trabajos.forEach(trabajo => {
-        const trabajosContainer = document.getElementById("contenedorTrabajos");
-        trabajosContainer.innerinnerHTML="" 
-        const trabajoElement = document.createElement("div");
-        trabajoElement.classList.add("trabajo");
-        trabajoElement.innerHTML = `
-            <img src="./${trabajo.titulo}.png" class="card-img-top" alt="${trabajo.titulo}">  
-            <h2><a href="${trabajo.link}" target="_blank">${trabajo.titulo}</a></h2>
-            <h4><a target="_blank">${trabajo.subtitulo}</a></h4>
-            <p>${trabajo.descripcion}</p>
-        `;
-        trabajosContainer.appendChild(trabajoElement);
+  if (trabajosContainer) {
+    Papa.parse("Listas/publicaciones.csv", {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // Filtrar los activos y ordenar por 'Orden'
+        const trabajos = results.data
+          .filter(t => (t.activo === "1" || t.activo === 1) && t.Orden)
+          .sort((a, b) => Number(a.Orden) - Number(b.Orden)) // orden ascendente
+          .slice(0, 3); // solo los primeros 3
+
+        // Limpiar contenedor
+        trabajosContainer.innerHTML = "";
+
+        // Crear los elementos
+        trabajos.forEach(trabajo => {
+          if (!trabajo.N) return;
+          const trabajoElement = document.createElement("div");
+          trabajoElement.classList.add("trabajo");
+          trabajoElement.innerHTML = `
+            <img src="./Imagenes/Proyectos/${trabajo.N}.png" alt="${trabajo.titulo}">
+            <div class="overlay">
+              <p class="descripcion">
+                ${trabajo.descripcion || ""} <br>
+                ${trabajo.Equipo ? `<br><strong>Equipo:</strong> ${trabajo.Equipo}` : ""}
+              </p>
+            ${
+              trabajo.link
+                ? `<a href="${trabajo.link}" target="_blank" class="link-flecha">➜</a>`
+                : ""
+            }
+            </div>
+            <h3 class="tema">${trabajo.tema || ""}</h3>
+            <h2>${trabajo.titulo || ""}</h2>
+          `;
+          trabajosContainer.appendChild(trabajoElement);
+        });
+      },
+      error: function (err) {
+        console.error("Error leyendo publicaciones.csv:", err);
+      }
     });
+  }
+
+  // === DIVULGACIÓN (inicio, con CSV==1 o 0) ===
+  const newsletterContainer = document.getElementById("newsletterContainer");
+  const notasContainer = document.getElementById("notasContainer");
+  if (newsletterContainer && notasContainer) {
+    Papa.parse("Listas/divulgacion.csv", {
+      download: true,
+      header: true,
+      complete: function(results) {
+        const data = results.data.filter(nl => nl.Titulo);
+        const newsletterItems = data.filter(nl => nl.Universo == "CSV").slice(0, 2);
+        const notasItems = data.filter(nl => nl.Universo == "Propias").slice(0, 1);
+
+        const crearItemHTML = (nl) => `
+          <div class="newsletter-item">
+            <div class="imagen-container">
+              <img src="Imagenes/publicaciones_propias/${nl.Imagen}" alt="${nl.Titulo}">
+              <div class="overlay">
+                <a href="${nl.Link}" target="_blank" class="link-flecha">➜</a>
+              </div>
+            </div>
+            <h2>${nl.Titulo}</h2>
+            <h4>${nl.Subtitulo || ""}</h4>
+          </div>
+        `;
+
+        newsletterContainer.innerHTML = "";
+        notasContainer.innerHTML = "";
+        newsletterItems.forEach(nl => newsletterContainer.insertAdjacentHTML("beforeend", crearItemHTML(nl)));
+        notasItems.forEach(nl => notasContainer.insertAdjacentHTML("beforeend", crearItemHTML(nl)));
+      }
+    });
+  }
+
+// === PUBLICACIONES (página publicaciones.html) ===
+const contenedor = document.getElementById("todasPublicaciones");
+
+if (contenedor) {
+  Papa.parse("Listas/publicaciones.csv", {
+    download: true,
+    header: true,
+    complete: function (results) {
+      // Filtrar las filas válidas
+      const publicaciones = results.data
+        .filter(pub => pub.titulo && pub.activo === "1") // solo activas
+        .sort((a, b) => Number(a.Orden) - Number(b.Orden)); // orden ascendente
+
+      // Limpiar contenedor
+      contenedor.innerHTML = "";
+
+      // Crear cada ítem
+      publicaciones.forEach(pub => {
+        const item = document.createElement("div");
+        item.classList.add("itemListado");
+        item.innerHTML = `
+          <img src="./Imagenes/Proyectos/${pub.N}.png" alt="${pub.titulo}">
+          <div class="itemTexto">
+            <h2>${pub.titulo}</h2>
+            <h4>${pub.descripcion || ""}</h4>
+            <h5>${pub.Equipo || ""}</h5>
+          </div>
+          <a href="${pub.link}" target="_blank" class="itemLink">➜</a>
+        `;
+        contenedor.appendChild(item);
+      });
+    },
+    error: function (err) {
+      console.error("Error leyendo publicaciones.csv:", err);
+    }
+  });
+}
+
+// === DIVULGACIÓN (página divulgacion.html) ===
+const contenedorDivulgacion = document.getElementById("todasDivulgaciones");
+
+if (contenedorDivulgacion) {
+  const filtroContainer = document.createElement("div");
+  filtroContainer.classList.add("filtroDivulgacion");
+
+  // Botones de filtro
+  const botones = [
+    { id: "todas", texto: "Todas" },
+    { id: "propias", texto: "Propias" },
+    { id: "participaciones", texto: "Participaciones" }
+  ];
+
+  botones.forEach(btnInfo => {
+    const btn = document.createElement("button");
+    btn.textContent = btnInfo.texto;
+    btn.id = btnInfo.id;
+    btn.classList.add("boton-filtro");
+    if (btnInfo.id === "todas") btn.classList.add("activo");
+    filtroContainer.appendChild(btn);
+  });
+
+  // Insertamos los filtros arriba del contenedor de divulgaciones
+  contenedorDivulgacion.parentNode.insertBefore(filtroContainer, contenedorDivulgacion);
+
+  // Función auxiliar: normaliza texto (quita tildes y pasa a minúsculas)
+  function normalize(str) {
+    return str
+      ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim()
+      : "";
+  }
+
+  // Cargar los datos
+  Papa.parse("Listas/divulgacion.csv", {
+    download: true,
+    header: true,
+    complete: function (results) {
+      const todasLasNotas = results.data.filter(n => n.Titulo);
+
+      function renderizar(filtro) {
+        contenedorDivulgacion.innerHTML = "";
+
+        let filtradas = todasLasNotas;
+
+        if (filtro === "propias") {
+          filtradas = todasLasNotas.filter(n => {
+            const r = normalize(n["Realiza"] || n.Realizacion || "");
+            return r.includes("propia");
+          });
+        } else if (filtro === "participaciones") {
+          filtradas = todasLasNotas.filter(n => {
+            const r = normalize(n["Realiza"] || n.Realizacion || "");
+            return r.includes("particip");
+          });
+        }
+
+        filtradas.forEach(nl => {
+          const item = document.createElement("div");
+          item.classList.add("itemListado");
+          item.innerHTML = `
+            <img src="Imagenes/publicaciones_propias/${nl.Imagen}" alt="${nl.Titulo}">
+            <div class="itemTexto">
+              <h2>${nl.Titulo}</h2>
+              <h4>${nl.Subtitulo || ""}</h4>
+              <h5>${nl.Medio || ""}</h5>
+            </div>
+            <a href="${nl.Link}" target="_blank" class="itemLink">➜</a>
+          `;
+          contenedorDivulgacion.appendChild(item);
+        });
+      }
+
+      // Render inicial
+      renderizar("todas");
+
+      // Eventos de filtro
+      filtroContainer.querySelectorAll(".boton-filtro").forEach(btn => {
+        btn.addEventListener("click", () => {
+          filtroContainer.querySelectorAll(".boton-filtro").forEach(b => b.classList.remove("activo"));
+          btn.classList.add("activo");
+          renderizar(btn.id);
+        });
+      });
+    },
+    error: function (err) {
+      console.error("Error leyendo propios_divulgacion.csv:", err);
+    }
+  });
+}
+
+  // … (docencia, instituciones, contacto, CV, etc.) …
+});
 
 
-    DatosContacto = {
-    mail: "sebastianrohr3@gmail.com", 
-    linkedin: "https://www.linkedin.com/in/sebastian-rohr-b4b878112/"},
+// DOCENCIA
+const docencia = [
+  {
+    universidad: "Universidad de Buenos Aires",
+    materia: "Tópicos de Economía Urbana",
+    logo: "Imagenes/Instituciones/logo_fadu.png"
+  },
+  {
+    universidad: "Universidad de San Martín",
+    materia: "Ciencia de datos para la Gestión Urbana",
+    logo: "Imagenes/Instituciones/logo_unsam.png"
+  },
+  {
+    universidad: "Universidad Nacional de Avellaneda",
+    materia: "Mercado de vivienda y gestión financiera",
+    logo: "Imagenes/Instituciones/logo_undav.png"
+  }
+];
+
+// Contenedor principal
+const docenciaContainer = document.getElementById("docencia-lista");
+
+// Crear dinámicamente los contenedores
+docencia.forEach(u => {
+  const uniDiv = document.createElement("div");
+  uniDiv.classList.add("uni-container");
+
+  // Imagen
+  const logo = document.createElement("img");
+  logo.src = u.logo;
+  logo.alt = `Logo ${u.universidad}`;
+  logo.classList.add("uni-logo");
+
+  // Texto
+  const textoDiv = document.createElement("div");
+  textoDiv.classList.add("uni-texto");
+
+  const h3 = document.createElement("h3");
+  h3.textContent = u.universidad;
+
+  const p = document.createElement("p");
+  p.textContent = u.materia;
+
+  textoDiv.appendChild(h3);
+  textoDiv.appendChild(p);
+
+  // Ensamblar estructura
+  uniDiv.appendChild(logo);
+  uniDiv.appendChild(textoDiv);
+
+  // Insertar al contenedor principal
+  docenciaContainer.appendChild(uniDiv);
+});
 
 
 
-    ContainerContacto = document.getElementById("contactoCV")
-    trabajosContainer.innerinnerHTML="" 
+// INSTITUCIONES CON LAS QUE TRABAJÉ
+const instituciones = [
+  { logo: "Imagenes/Instituciones/logo_ceeu.png" },
+  { logo: "Imagenes/Instituciones/logo_cippec.png" },
+  { logo: "Imagenes/Instituciones/logo_andata.png" },
+  { logo: "Imagenes/Instituciones/logo_lis.png" },
+  { logo: "Imagenes/Instituciones/logo_caf.png" },
+  { logo: "Imagenes/Instituciones/logo_conicet.png" },
+  { logo: "Imagenes/Instituciones/logo_fundar.png" }
+];
 
-// Crea un div para el ícono de LinkedIn y mail
-const linkedinIcon = document.createElement("a");
-linkedinIcon.href = "https://www.linkedin.com/in/sebastian-rohr-b4b878112/";
-linkedinIcon.target = "_blank"; 
-const linkedinImg = document.createElement("img");
-linkedinImg.src = "Linkedin-Free-Download-PNG.png"; 
-linkedinIcon.appendChild(linkedinImg); 
-ContainerContacto.appendChild(linkedinIcon); 
+// Contenedor principal
+const workwithContainer = document.getElementById("workwith");
 
-const emailIcon = document.createElement("a");
-emailIcon.href = "mailto:sebastianrohr3@gmail.com";
-emailIcon.target = "_blank"; 
-const emailImg = document.createElement("img");
-emailImg.src = "descarga-removebg-preview.png"; 
-emailIcon.appendChild(emailImg); 
-ContainerContacto.appendChild(emailIcon); 
+// Crear un contenedor interno para los logos
+const logosContainer = document.createElement("div");
+logosContainer.classList.add("logos-container");
 
-const cvIcon = document.createElement("a");
-cvIcon.href = "https://drive.google.com/file/d/1o-jlvmwLoqkfn7Y0q98tlEJehVzYhsRF/view?usp=sharing";
-cvIcon.download = "CV Sebastian Rohr (esp).pdf"; 
-const cvImg = document.createElement("img");
-cvImg.src = "cv español.png"; 
-cvIcon.appendChild(cvImg); 
-ContainerContacto.appendChild(cvIcon); 
+// Crear los logos dinámicamente
+instituciones.forEach(inst => {
+  const logo = document.createElement("img");
+  logo.src = inst.logo;
+  logo.alt = "Logo institución";
+  logo.classList.add("logo-item");
+  logosContainer.appendChild(logo);
+});
 
-const cvIconeng = document.createElement("a");
-cvIconeng.href = "https://drive.google.com/drive/u/0/folders/1XDCLcSaQN03aHSQx6VP_XILQOjv5mdWh";
-cvIconeng.download = "CV Sebastian Rohr (eng).pdf"; 
-const cvImgeng = document.createElement("img");
-cvImgeng.src = "cv ingles.png"; 
-cvIconeng.appendChild(cvImgeng); 
-ContainerContacto.appendChild(cvIconeng); 
+// Insertar en el HTML
+workwithContainer.appendChild(logosContainer);
 
 
 
 
+// CONTACTO
+
+// CONTACTO
+const datosContacto = {
+  mail: {
+    href: "mailto:sebastianrohr3@gmail.com",
+    icon: "./Imagenes/redes_sociales_negras/gmail.png",
+    alt: "Email"
+  },
+  linkedin: {
+    href: "https://www.linkedin.com/in/sebastian-rohr-b4b878112/",
+    icon: "./Imagenes/redes_sociales_negras/linkedin.png",
+    alt: "LinkedIn"
+  },
+  instagram: {
+    href: "https://www.instagram.com/sebarohr/",
+    icon: "./Imagenes/redes_sociales_negras/instagram.png",
+    alt: "Instagram"
+  },
+  csv: {
+    href: "https://comosobrevivimos.substack.com/",
+    icon: "./Imagenes/redes_sociales_negras/substack.png",
+    alt: "Substack"
+  }
+};
+
+// Contenedor principal
+const containerContacto = document.getElementById("contactoCV");
+containerContacto.innerHTML = ""; // Limpia antes de agregar
+
+// Función para crear cada ícono con su link
+function crearIconoContacto({ href, icon, alt }) {
+  const a = document.createElement("a");
+  a.href = href;
+  a.target = "_blank";
+
+  const img = document.createElement("img");
+  img.src = icon;
+  img.alt = alt;
+  img.classList.add("icono-contacto"); // para el CSS
+
+  a.appendChild(img);
+  return a;
+}
+
+// Recorre los datos y agrega cada ícono
+Object.values(datosContacto).forEach(contacto => {
+  const icono = crearIconoContacto(contacto);
+  containerContacto.appendChild(icono);
+});
 
 
+
+// ===============================
+// SECCIÓN: CURRICULUM (CV)
+// ===============================
+
+// Datos del CV
+const datosCV = [
+  {
+    idioma: "Español",
+    link: "https://drive.google.com/file/d/1o-jlvmwLoqkfn7Y0q98tlEJehVzYhsRF/view?usp=sharing",
+    img: "Imagenes/Iconos/cv español.png",
+    alt: "CV Español"
+  },
+  {
+    idioma: "Inglés",
+    link: "https://drive.google.com/drive/u/0/folders/1XDCLcSaQN03aHSQx6VP_XILQOjv5mdWh",
+    img: "Imagenes/Iconos/cv ingles.png",
+    alt: "CV Inglés"
+  }
+];
+
+// Contenedor donde se van a insertar los íconos
+const containerCV = document.getElementById("CV");
+
+// Limpiar contenido previo (por seguridad)
+containerCV.innerHTML = "";
+
+// Crear dinámicamente los íconos de CV
+datosCV.forEach(cv => {
+  const link = document.createElement("a");
+  link.href = cv.link;
+  link.target = "_blank";
+  link.download = cv.alt; // nombre de descarga sugerido
+
+  const img = document.createElement("img");
+  img.src = cv.img;
+  img.alt = cv.alt;
+  img.classList.add("cv-icon"); // estilo CSS opcional
+
+  link.appendChild(img);
+  containerCV.appendChild(link);
 });
 
