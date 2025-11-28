@@ -50,15 +50,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // === DIVULGACIÓN (inicio, con CSV==1 o 0) ===
   const newsletterContainer = document.getElementById("newsletterContainer");
-  const notasContainer = document.getElementById("notasContainer");
-  if (newsletterContainer && notasContainer) {
+ // const notasContainer = document.getElementById("notasContainer");
+  if (newsletterContainer) {
     Papa.parse("Listas/divulgacion.csv", {
       download: true,
       header: true,
       complete: function(results) {
-        const data = results.data.filter(nl => nl.Titulo);
-        const newsletterItems = data.filter(nl => nl.Universo == "CSV").slice(0, 2);
-        const notasItems = data.filter(nl => nl.Universo == "Propias").slice(0, 1);
+      const data = results.data.filter(nl => nl.Titulo);
+
+      const newsletterItems = data
+          .filter(nl => nl.Universo === "CSV")
+          .sort((a, b) => a.N - b.N)   // ordena de menor a mayor según N
+          .slice(0, 3);                // toma los primeros 3
+
+    //    const notasItems = data.filter(nl => nl.Universo == "Propias").slice(0, 1);
 
         const crearItemHTML = (nl) => `
           <div class="newsletter-item">
@@ -74,9 +79,9 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
 
         newsletterContainer.innerHTML = "";
-        notasContainer.innerHTML = "";
+  //      notasContainer.innerHTML = "";
         newsletterItems.forEach(nl => newsletterContainer.insertAdjacentHTML("beforeend", crearItemHTML(nl)));
-        notasItems.forEach(nl => notasContainer.insertAdjacentHTML("beforeend", crearItemHTML(nl)));
+    //    notasItems.forEach(nl => notasContainer.insertAdjacentHTML("beforeend", crearItemHTML(nl)));
       }
     });
   }
@@ -157,8 +162,34 @@ if (contenedorDivulgacion) {
     download: true,
     header: true,
     complete: function (results) {
-      const todasLasNotas = results.data.filter(n => n.Titulo);
+      // Mapeo del orden deseado para "Universo"
+      const ordenUniverso = {
+        "CSV": 1,
+        "Propias": 2,
+        "Participaciones": 3,
+        "Participación": 3, // por si llega con tilde
+        "participacion": 3
+      };
 
+      const todasLasNotas = results.data
+        .filter(n => n.Titulo)
+        .sort((a, b) => {
+          // Normalizamos "Universo"
+          const ua = (a.Universo || "").trim();
+          const ub = (b.Universo || "").trim();
+
+          // Primero orden por universo según tu ranking
+          const ordenA = ordenUniverso[ua] ?? 99;
+          const ordenB = ordenUniverso[ub] ?? 99;
+
+          if (ordenA !== ordenB) return ordenA - ordenB;
+
+          // Segundo orden por "Orden Nat" descendente
+          const oa = Number(a["Orden Nat"]) || 0;
+          const ob = Number(b["Orden Nat"]) || 0;
+
+          return ob - oa; // descendente
+        });
       function renderizar(filtro) {
         contenedorDivulgacion.innerHTML = "";
 
@@ -364,13 +395,13 @@ Object.values(datosContacto).forEach(contacto => {
 const datosCV = [
   {
     idioma: "Español",
-    link: "https://drive.google.com/file/d/1o-jlvmwLoqkfn7Y0q98tlEJehVzYhsRF/view?usp=sharing",
+    link: "https://drive.google.com/file/d/14EvzlAIaS5fRHqO0xqfwTxxpZiz1aYMy/view?usp=sharing",
     img: "Imagenes/Iconos/cv español.png",
     alt: "CV Español"
   },
   {
     idioma: "Inglés",
-    link: "https://drive.google.com/drive/u/0/folders/1XDCLcSaQN03aHSQx6VP_XILQOjv5mdWh",
+    link: "https://drive.google.com/file/d/1GuAdZRkah8C4HQEb89GkQ2-wVn7UDRhD/view?usp=sharing",
     img: "Imagenes/Iconos/cv ingles.png",
     alt: "CV Inglés"
   }
